@@ -1,0 +1,40 @@
+
+CFLAGS = -Wall -Iinclude -Itest/unity
+OBJDIR = obj/
+SRC = src/main.c src/parser.c
+OBJ = $(SRC:src/%.c=$(OBJDIR)%.o)
+# match each file in src against 'src/%.c'
+# % captures the filename without directory and extentsion
+# replace with $(OBJDIR)%.o
+TARGET = bin/shell
+
+TEST_SRC = $(wildcard test/*.c)
+UNITY_SRC = test/unity/unity.c
+TEST_OBJ = $(TEST_SRC:.c=.o) $(UNITY_SRC:.c=.o)
+TEST_TARGET = bin/test_shell
+
+all: $(TARGET)
+
+$(TARGET):	$(OBJ)
+	gcc -o $@ $^
+# $@ is replaced by $(TARGET)
+# $^ is replaced by all prereqs of target i.e. obj files in $(OBJ)
+
+$(OBJDIR)%.o: src/%.c
+	gcc $(CFLAGS) -c $< -o $@
+# $< is a special automatic variable in Makefiles that represents
+# the first prerequisite of a rule i.e. the corresponding .c file in src 
+
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
+
+$(TEST_TARGET): $(TEST_OBJ)
+	gcc -o $@ $^ $(CFLAGS)
+
+
+
+clean:
+	rm -f $(OBJDIR)*.o $(TARGET) $(TEST_OBJ) $(TEST_TARGET)
+
+.PHONY: all clean test
+

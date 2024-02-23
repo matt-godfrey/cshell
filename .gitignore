@@ -1,0 +1,14 @@
+
+
+# Object files
+*.o 
+
+# Binaries
+*.exe
+*.out
+*.bin 
+
+/lib 
+/obj 
+
+
