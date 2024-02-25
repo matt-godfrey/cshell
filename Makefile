@@ -1,4 +1,3 @@
-
 CFLAGS = -Wall -Iinclude -Itest/unity
 OBJDIR = obj/
 SRC = src/main.c src/parser.c
@@ -12,6 +11,8 @@ TEST_SRC = $(wildcard test/*.c)
 UNITY_SRC = test/unity/unity.c
 TEST_OBJ = $(TEST_SRC:.c=.o) $(UNITY_SRC:.c=.o)
 TEST_TARGET = bin/test_shell
+
+SRC_TEST_OBJS = $(filter-out $(OBJDIR)main.o, $(SRC:src/%.c=$(OBJDIR)%.o))
 
 all: $(TARGET)
 
@@ -28,7 +29,7 @@ $(OBJDIR)%.o: src/%.c
 test: $(TEST_TARGET)
 	./$(TEST_TARGET)
 
-$(TEST_TARGET): $(TEST_OBJ)
+$(TEST_TARGET): $(TEST_OBJ) $(SRC_TEST_OBJS)
 	gcc -o $@ $^ $(CFLAGS)
 
 
@@ -37,4 +38,3 @@ clean:
 	rm -f $(OBJDIR)*.o $(TARGET) $(TEST_OBJ) $(TEST_TARGET)
 
 .PHONY: all clean test
-
