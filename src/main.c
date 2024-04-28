@@ -40,9 +40,16 @@ void prompt(char *username, char *path, char *envp[])
 	char *s;
 	size_t nargs;
 	int background = 0;
+	char cwd[100];
 
 	while (1) {
-		printf("%s $ ", username);
+
+		if (getcwd(cwd, sizeof(cwd)) == NULL) {
+			printf("error: %s\n", strerror(errno));
+			return;
+		}
+
+		printf("%s:[%s] $ ", username, cwd);
 
 		s = fgets(buffer, BUFFER_SIZE, stdin);
 
@@ -78,7 +85,6 @@ int main(int argc, char *argv[], char *envp[])
 {
 
 	char *username;
-
 	char *path;
 
 	username = getenv("USER");

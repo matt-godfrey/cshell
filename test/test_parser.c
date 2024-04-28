@@ -43,6 +43,14 @@ void test_parse_args(void)
 
 }
 
+void test_find_binary(void) {
+
+}
+
+void test_ch_dir(void) {
+	
+}
+
 int main(void)
 {
 	UNITY_BEGIN();
