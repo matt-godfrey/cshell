@@ -38,21 +38,42 @@ void find_binary(char *path) {
 	}
 }
 
-
 void ch_dir(char *target) {
-	char cwd[100];
-	char new_dir[100];
+    char *result = NULL;
+    char *home_dir;
+    size_t path_size;
 
-	if (getcwd(cwd, sizeof(cwd)) == NULL) {
-		printf("error: %s\n", strerror(errno));
-	}
+    home_dir = getenv("HOME");
+    if (home_dir == NULL) {
+        printf("error: HOME environment variable not set\n");
+        return;
+    }
 
-	int ret = chdir(target);
-	if (ret < 0) {
-		printf("error: %s\n", strerror(errno));
-		return;
-	}
+    if (target[0] == '~') {
+        path_size = strlen(home_dir) + strlen(target);
+        result = malloc(path_size);
+        if (result == NULL) {
+            perror("malloc");
+            return;
+        }
+        strcpy(result, home_dir);
+        strcat(result, target + 1);
+    } else {
+        path_size = strlen(target) + 1;
+        result = malloc(path_size);
+        if (result == NULL) {
+            perror("malloc");
+            return;
+        }
+        strcpy(result, target);
+    }
 
-	getcwd(new_dir, sizeof(new_dir));
+    if (chdir(result) < 0) {
+        printf("error: %s\n", strerror(errno));
+    } 
+	// else {
+    //     printf("Changed directory to %s\n", result);
+    // }
 
+    free(result);
 }

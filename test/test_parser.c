@@ -1,7 +1,7 @@
 #include "unity/unity.h"
 #include <string.h>
 #include <stdlib.h>
-
+#include <unistd.h>
 #include "parser.h"
 
 
@@ -48,13 +48,50 @@ void test_find_binary(void) {
 }
 
 void test_ch_dir(void) {
-	
+	char cwd[100];
+	char new_cwd[100];
+	char target[] = "/home/matt/Code";
+
+	// ACT
+	getcwd(cwd, sizeof(cwd));
+	ch_dir("..");
+	getcwd(new_cwd, sizeof(new_cwd));
+
+	// ASSERT
+	TEST_ASSERT_EQUAL_STRING(target, new_cwd);
+}
+
+void test_ch_dir_homedir(void) {
+	char *cwd;
+	char *new_cwd;
+	char home_dir[] = "/home/matt";
+
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL) {
+		perror("cwd failed");
+		return 1;
+	}
+
+	// ACT
+	ch_dir("~");
+
+	new_cwd = getcwd(NULL, 0);
+	if (new_cwd == NULL) {
+		perror("cwd failed");
+		return 1;
+	}
+
+	// ASSERT
+	TEST_ASSERT_EQUAL_STRING(home_dir, new_cwd);
+
 }
 
 int main(void)
 {
 	UNITY_BEGIN();
 	RUN_TEST(test_parse_args);
+	RUN_TEST(test_ch_dir);
+	RUN_TEST(test_ch_dir_homedir);
 	return UNITY_END();
 }
 
