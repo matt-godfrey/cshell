@@ -1,6 +1,7 @@
 CFLAGS = -Wall -Iinclude -Itest/unity
+LDFLAGS=-lreadline
 OBJDIR = obj/
-SRC = src/main.c src/parser.c
+SRC = src/main.c src/parser.c src/autocomplete.c
 OBJ = $(SRC:src/%.c=$(OBJDIR)%.o)
 # match each file in src against 'src/%.c'
 # % captures the filename without directory and extentsion
@@ -17,7 +18,7 @@ SRC_TEST_OBJS = $(filter-out $(OBJDIR)main.o, $(SRC:src/%.c=$(OBJDIR)%.o))
 all: $(TARGET)
 
 $(TARGET):	$(OBJ)
-	gcc -o $@ $^
+	gcc -o $@ $^ $(LDFLAGS)
 # $@ is replaced by $(TARGET)
 # $^ is replaced by all prereqs of target i.e. obj files in $(OBJ)
 
@@ -30,7 +31,7 @@ test: $(TEST_TARGET)
 	./$(TEST_TARGET)
 
 $(TEST_TARGET): $(TEST_OBJ) $(SRC_TEST_OBJS)
-	gcc -o $@ $^ $(CFLAGS)
+	gcc -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 
 
