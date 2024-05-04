@@ -9,7 +9,7 @@ void parse_args(char *buffer, char **args, size_t args_size, size_t *nargs)
 {
 	
 	int i = 0;
-	char *tok = strtok(buffer, " \n\t");
+	char *tok = strtok(buffer, " \t");
 
 	while (tok != NULL) {
 		if (strlen(tok) > 0) {
@@ -18,9 +18,9 @@ void parse_args(char *buffer, char **args, size_t args_size, size_t *nargs)
 				break;
 			}
 		}
-		// printf("arg [%d]: %s\n", i, args[i]);
+		// printf("arg [%d]:%s\n", i, args[i]);
 		i++;
-		tok = strtok(NULL, " \n\t");
+		tok = strtok(NULL, " \t");
 	}
 
 	*nargs = i;
@@ -69,7 +69,7 @@ void ch_dir(char *target) {
     }
 
     if (chdir(result) < 0) {
-        printf("error: %s\n", strerror(errno));
+        printf("error (cd): %s\n", strerror(errno));
     } 
 	// else {
     //     printf("Changed directory to %s\n", result);

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "parser.h"
 
 
@@ -43,9 +44,9 @@ void test_parse_args(void)
 
 }
 
-void test_find_binary(void) {
+// void test_find_binary(void) {
 
-}
+// }
 
 void test_ch_dir(void) {
 	char cwd[100];
