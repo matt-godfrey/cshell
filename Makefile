@@ -1,7 +1,7 @@
 CFLAGS = -Wall -Iinclude -Itest/unity
 LDFLAGS=-lreadline
 OBJDIR = obj/
-SRC = src/main.c src/parser.c src/autocomplete.c
+SRC = src/main.c src/parser.c src/autocomplete.c src/colour_dict.c
 OBJ = $(SRC:src/%.c=$(OBJDIR)%.o)
 # match each file in src against 'src/%.c'
 # % captures the filename without directory and extentsion
