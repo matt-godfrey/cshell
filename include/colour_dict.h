@@ -10,12 +10,12 @@ typedef struct {
 } ColourEntry;
 
 typedef struct {
-    ColourEntry colours[MAX_ENTRIES];
+    ColourEntry *colours[MAX_ENTRIES];
     int size;
 } ColourDict;
 
 void init_colour_dict(ColourDict *dict);
-void add_colour(ColourDict *dict, const char *colour, int value);
+int add_colour(ColourDict *dict, const char *colour, int value);
 
 
 #endif
