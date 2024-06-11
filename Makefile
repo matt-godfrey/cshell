@@ -1,3 +1,5 @@
+# https://makefiletutorial.com/#makefile-cookbook
+
 CFLAGS = -Wall -Iinclude -Itest/unity
 LDFLAGS=-lreadline
 OBJDIR = obj/

@@ -52,7 +52,7 @@ void prompt(char *username, char *path, char *envp[])
 			return;
 		}
 
-		sprintf(prompt_string, "%s:[%s] $ ", username, cwd);
+		sprintf(prompt_string, "%s%s:%s[%s] %s$ ", GREEN, username, BLUE, cwd, NC);
     	s = readline(prompt_string);
 
 		if (s == NULL) {
